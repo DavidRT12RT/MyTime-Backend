@@ -53,7 +53,6 @@ class Server {
             })
         );
 
-
         
         //API ENDPOINTS
         this.app.use(this.paths.login,require("../routes/auth"));
