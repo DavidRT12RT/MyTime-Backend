@@ -60,6 +60,8 @@ class Server {
         this.app.use(this.paths.usuarios,require("../routes/usuarios"));
         this.app.use(this.paths.publicaciones,require("../routes/publicaciones"));
 
+        //Haciendo que cualquier ruta que llegue sirva el directorio publico donde esta la appa de react de una vez
+        this.app.use("*", express.static("public"));
     }
 
     // Esta configuración se puede tener aquí o como propieda de clase
