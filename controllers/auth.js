@@ -8,6 +8,7 @@ const iniciarSeccion = async(req=request,res=response) => {
 
     try {
         
+        req.body.email = req.body.email.toLowerCase();
         const { email,password } = req.body;
         
         //Verificar que exista un usuario con ese correo

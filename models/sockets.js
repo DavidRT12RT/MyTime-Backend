@@ -1,5 +1,12 @@
+//Controller's
 const { usuarioConectado, usuarioDesconectado, obtenerUsuarios, grabarMensaje } = require("../controllers/sockets");
+
+//Middlewares
 const verificarJWT = require("../helpers/verificarJWT");
+
+//Models
+const Publicacion = require("../models/publicacion");
+
 
 class Sockets {
 
@@ -47,6 +54,20 @@ class Sockets {
 
             });
 
+            socket.on("actualizar-publicacion", async (values) => {
+                const { id } = values;
+                const publicacion = await Publicacion.findById(id)
+                    .populate("autor")
+                    .populate({
+                        path: "reacciones.autor",
+                        model: "Usuario",
+                    })
+                    .populate({
+                        path: "comentarios.autor",
+                        model: "Usuario",
+                    });
+                this.io.emit("actualizar-publicacion", publicacion);
+            });
 
             socket.on("disconnect",async() => {
                 console.log("Cliente desconectado!");

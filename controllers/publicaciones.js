@@ -40,6 +40,32 @@ const publicacionesGetTotales = async(req=request,res=response) => {
 
 }
 
+const publicacionesUsuarioTotales = async(req=request,res=response) => {
+    try {
+        const { id } = req.params;
+
+        const query = {
+            autor:id,
+            estado:true
+        };
+        const publicaciones = await Publicacion.find(query)
+            .populate("autor").sort({fecha:"1"})
+            .populate({
+                path:"reacciones.autor",
+                model:"Usuario"
+            })
+            .populate({
+                path:"comentarios.autor",
+                model:"Usuario"
+            })
+        
+        return res.status(200).json({publicaciones});
+    } catch (error) {
+        return res.status(500).json({msg:`Error consiguiendo todas las peticiones del usuario con id ${id}`});
+    }
+}
+
+
 const registrarNuevaPublicacion = async(req=request,res=response) => {
 
     try {
@@ -175,6 +201,7 @@ const eliminarPublicacion = async(req=request,res=response) => {
 
 module.exports = {
     publicacionesGetTotales,
+    publicacionesUsuarioTotales,
     registrarNuevaPublicacion,
     obtenerFotoPublicacion,
     registrarAccionAPublicacion,

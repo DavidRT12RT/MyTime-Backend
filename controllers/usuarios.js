@@ -9,6 +9,7 @@ const { subirArchivo } = require("../helpers/subirArchivo");
 
 const crearUsuario = async(req=request,res=response) => {
     try {
+        req.body.email = req.body.email.toLowerCase();
         const { email,password } = req.body;
 
         //Verificar que no existe el email

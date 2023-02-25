@@ -5,7 +5,7 @@ const { Router } = require('express');
 const validarJWT = require('../middlewares/validarJWT');
 
 //Controllers
-const { publicacionesGetTotales, registrarNuevaPublicacion, obtenerFotoPublicacion, registrarAccionAPublicacion, editarPublicacion, eliminarPublicacion } = require('../controllers/publicaciones');
+const { publicacionesGetTotales, registrarNuevaPublicacion, obtenerFotoPublicacion, registrarAccionAPublicacion, editarPublicacion, eliminarPublicacion, publicacionesUsuarioTotales } = require('../controllers/publicaciones');
 
 const router = Router();
 
@@ -13,6 +13,10 @@ const router = Router();
 router.get("/",[
     validarJWT
 ],publicacionesGetTotales);
+
+//Obtener TODAS las publicaciones de un usuairo
+
+router.get("/:id",validarJWT,publicacionesUsuarioTotales);
 
 //Registrar una nueva publicacion en el sistema
 router.post("/",[
